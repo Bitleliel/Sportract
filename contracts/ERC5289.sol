@@ -31,7 +31,7 @@ contract ERC5289 is IERC5289Library {
 
         address signer;
         
-        uint64 timeStamp;
+        uint256 timeStamp;
 
         string ipfsuri;
     }
@@ -59,7 +59,7 @@ contract ERC5289 is IERC5289Library {
 
     /// @notice An immutable link to the legal document (RECOMMENDED to be hosted on IPFS). This MUST use a common file format, such as PDF, HTML, TeX, or Markdown.
     
-    function legalDocument(uint16 documentId) external view returns (string memory) {
+    function legalDocument(uint16 documentId) public view returns (string memory) {
        
         Document[] storage d = documents[documentId];
 
@@ -73,7 +73,7 @@ contract ERC5289 is IERC5289Library {
     
     /// @notice Returns whether or not the given user signed the document.
     
-    function documentSigned(address user, uint16 documentId) external view returns (bool signed) {
+    function documentSigned(address user, uint16 documentId) public view returns (bool signed) {
         
         Document[] storage d = documents[documentId];
 
@@ -86,7 +86,7 @@ contract ERC5289 is IERC5289Library {
     /// @notice Returns when the the given user signed the document.
     /// @dev If the user has not signed the document, the timestamp may be anything.
     
-    function documentSignedAt(address user, uint16 documentId) external view returns (uint64 timestamp) {
+    function documentSignedAt(address user, uint16 documentId) public view returns (uint256 timestamp) {
 
         Document[] storage d = documents[documentId];
 
@@ -99,7 +99,7 @@ contract ERC5289 is IERC5289Library {
 
     /// @notice Sign a document
     /// @dev This MUST be validated by the smart contract. This MUST emit DocumentSigned or throw.
-    function signDocument(address signer, uint16 documentId) external {
+    function signDocument(address signer, uint16 documentId) public {
         
         documents[documentId].push(Document(signer, block.timestamp, "noURI"));
 
@@ -110,7 +110,7 @@ contract ERC5289 is IERC5289Library {
 
 
 
-    function signDocument(address signer, uint16 documentId, string memory uri) external {
+    function signDocument(address signer, uint16 documentId, string memory uri) public {
 
         documents[documentId].push(Document(signer, block.timestamp, uri));
 

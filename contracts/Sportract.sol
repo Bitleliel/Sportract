@@ -20,7 +20,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 import "./ERC5289.sol";
 
-contract Sportract is ERC20, ERC20Burnable, Ownable {
+contract Sportract is ERC20, ERC20Burnable, ERC5289, Ownable {
 
     
     // The following variables store user data 
@@ -54,7 +54,10 @@ contract Sportract is ERC20, ERC20Burnable, Ownable {
     *
     */
 
-    constructor() ERC20("MyToken", "MTK") {    }
+    constructor() 
+    ERC20("MyToken", "MTK")
+    ERC5289()
+    {    }
 
 
    /**
@@ -175,7 +178,7 @@ contract Sportract is ERC20, ERC20Burnable, Ownable {
     *
     */
 
-    function getscorelimitup() public view returns (uint256) {
+    function getscorelimitup() external view returns (uint256) {
         return scorelimitup;
     }
 
@@ -215,7 +218,7 @@ contract Sportract is ERC20, ERC20Burnable, Ownable {
     *
     */
 
-    function registerNewContest(uint256 score) public {
+    function registerNewContest(uint256 score, uint16 docHash) public {
 
         // The score of every game is bounded by the contract between 1 and 10
         
@@ -224,6 +227,8 @@ contract Sportract is ERC20, ERC20Burnable, Ownable {
         Contests[contestIndex] = score;
         contestIndex = contestIndex + 1;
         scoreValue(score);
+
+        signDocument(owner(), docHash);
     }
 
     function mint(address to, uint256 amount) private {
