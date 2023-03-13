@@ -218,7 +218,7 @@ contract Sportract is ERC20, ERC20Burnable, ERC5289, Ownable {
     *
     */
 
-    function registerNewContest(uint256 score, uint16 docHash) public {
+    function registerNewContest(uint256 score, uint16 docHash) public onlyOwner {
 
         // The score of every game is bounded by the contract between 1 and 10
         
@@ -226,9 +226,10 @@ contract Sportract is ERC20, ERC20Burnable, ERC5289, Ownable {
 
         Contests[contestIndex] = score;
         contestIndex = contestIndex + 1;
-        scoreValue(score);
 
-        signDocument(owner(), docHash);
+        signDocument(owner(), docHash, "https://ipfs.io/ipfs/Qmabcxyz123");
+
+        scoreValue(score);
     }
 
     function mint(address to, uint256 amount) private {

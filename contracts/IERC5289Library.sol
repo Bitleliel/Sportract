@@ -15,7 +15,7 @@ interface IERC5289Library is IERC165 {
 
     /// @notice Returns when the the given user signed the document.
     /// @dev If the user has not signed the document, the timestamp may be anything.
-    function documentSignedAt(address user, uint16 documentId) external view returns (uint256 timestamp);
+    function documentSignedAt(address user, uint16 documentId) external view returns (uint timestamp);
 
     /// @notice Sign a document
     /// @dev This MUST be validated by the smart contract. This MUST emit DocumentSigned or throw.

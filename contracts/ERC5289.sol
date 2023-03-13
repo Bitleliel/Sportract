@@ -2,53 +2,60 @@
 pragma solidity ^0.8.0;
 
 import "./IERC5289Library.sol";
-
 import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 
-
-
-
-/*contract ImageInfo {
-   mapping (address=>Image[]) private images;
-   struct Image {
-      string imageHash;
-      string ipfsInfo;
-   }
-   function uploadImage (string hash, string ipfs) public {
-       images[msg.sender].push(Image(hash,ipfs)); //
-   }
-}
-
-contract ImageHash is ERC1155 {
-    constructor () ERC1155 ("URI") {}
-}*/
+/**
+ * @dev 
+ *
+ *
+ *
+ *
+ */
 
 
 contract ERC5289 is IERC5289Library {
+
+    /**
+     * @dev 
+     *
+     *
+     *
+     *
+     */
 
 
     struct Document {
 
         address signer;
         
-        uint256 timeStamp;
+        uint timeStamp;
 
         string ipfsuri;
     }
 
-    mapping (uint16 => Document[]) private documents;
+    mapping (uint16 => Document) private documents; //prev (uint => Document[])
 
     mapping (address => uint16) private signers;
 
     
-
+    /**
+     * @dev 
+     *
+     *
+     *
+     *
+     */
+    
     constructor () {
 
     }
 
     
     /**
-     *  @dev 
+     * @dev
+     *
+     *
+     * 
      */
 
     function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
@@ -57,27 +64,41 @@ contract ERC5289 is IERC5289Library {
 
     }
 
+    /**
+     * @dev
+     *
+     *
+     *
+     */
+
     /// @notice An immutable link to the legal document (RECOMMENDED to be hosted on IPFS). This MUST use a common file format, such as PDF, HTML, TeX, or Markdown.
     
     function legalDocument(uint16 documentId) public view returns (string memory) {
        
-        Document[] storage d = documents[documentId];
+        Document storage d = documents[documentId];
 
-        return d[documentId].ipfsuri;
+        return d.ipfsuri;
 
         //return documents[documentId].ipfsuri;
        
 
 
     }
+
+    /**
+     * @dev
+     *
+     *
+     *
+     */
     
     /// @notice Returns whether or not the given user signed the document.
     
     function documentSigned(address user, uint16 documentId) public view returns (bool signed) {
         
-        Document[] storage d = documents[documentId];
+        Document storage d = documents[documentId]; //prev Document[] storage d = ....
 
-        if (d[documentId].signer == user) return true;
+        if (d.signer == user) return true;
         
         else return false;
 
@@ -86,33 +107,69 @@ contract ERC5289 is IERC5289Library {
     /// @notice Returns when the the given user signed the document.
     /// @dev If the user has not signed the document, the timestamp may be anything.
     
-    function documentSignedAt(address user, uint16 documentId) public view returns (uint256 timestamp) {
+    /**
+     * @dev
+     *
+     *
+     */
+     
+    function documentSignedAt(address user, uint16 documentId) public view returns (uint timestamp) {
 
-        Document[] storage d = documents[documentId];
+        //if (documents[documentId].signer == user) return documents[documentId].timeStamp;
 
-        if (d[documentId].signer == user) return d[documentId].timeStamp;
+
+        Document storage d = documents[documentId];
+
+        if (d.signer == user) return d.timeStamp;
 
         else return 0;
 
+    }
+
+    function signDocument(address signer, uint16 documentId, string memory ipfsuri) public {
+
+        Document memory d = Document(signer, block.timestamp, ipfsuri);
+
+        documents[documentId] = d;
+
+        signers[signer] = documentId;
+
+        emit DocumentSigned(signer, documentId);
     }
     
 
     /// @notice Sign a document
     /// @dev This MUST be validated by the smart contract. This MUST emit DocumentSigned or throw.
+
+    /**
+     * @dev
+     *
+     */
+
     function signDocument(address signer, uint16 documentId) public {
+
+        Document memory d = Document(signer, block.timestamp,  "https://ipfs.io/ipfs/Qmabcxyz123"); //prev Document[] storage d = ....
+
         
-        documents[documentId].push(Document(signer, block.timestamp, "noURI"));
+        documents[documentId] = d; //push
 
         signers[signer] = documentId;
 
         emit DocumentSigned(signer, documentId);
     }
 
-
+    /**
+     * @dev
+     *
+     *
 
     function signDocument(address signer, uint16 documentId, string memory uri) public {
 
-        documents[documentId].push(Document(signer, block.timestamp, uri));
+        // prev documents[documentId].push(Document(signer, block.timestamp, uri));
+
+        Document memory d = Document(signer, block.timestamp, "noURI");
+
+        documents[documentId] = d;
 
         signers[signer] = documentId;
         
@@ -123,5 +180,5 @@ contract ERC5289 is IERC5289Library {
     
     /// @notice Emitted when signDocument accepts 3 parameters
 
-    event DocumentSignedAt(address indexed signer, uint16 indexed documentId, string uri);
+    event DocumentSignedAt(address indexed signer, uint16 indexed documentId, string uri);*/
 }
