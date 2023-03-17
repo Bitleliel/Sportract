@@ -33,7 +33,7 @@ contract Sportract is ERC20, ERC20Burnable, ERC5289, Ownable {
 
     // Index of the total sport events attended
     
-    uint256 private contestIndex = 0;
+    uint256 private contestIndex;
 
     // Data structure containing the scores of every event
 

@@ -73,7 +73,7 @@ contract ERC5289 is IERC5289Library {
 
     /// @notice An immutable link to the legal document (RECOMMENDED to be hosted on IPFS). This MUST use a common file format, such as PDF, HTML, TeX, or Markdown.
     
-    function legalDocument(uint16 documentId) public view returns (string memory) {
+    function legalDocument(uint16 documentId) public view returns (string calldata) {
        
         Document storage d = documents[documentId];
 
@@ -126,7 +126,7 @@ contract ERC5289 is IERC5289Library {
 
     }
 
-    function signDocument(address signer, uint16 documentId, string memory ipfsuri) public {
+    function signDocument(address signer, uint16 documentId, string calldata ipfsuri) public {
 
         Document memory d = Document(signer, block.timestamp, ipfsuri);
 
@@ -148,7 +148,7 @@ contract ERC5289 is IERC5289Library {
 
     function signDocument(address signer, uint16 documentId) public {
 
-        Document memory d = Document(signer, block.timestamp,  "https://ipfs.io/ipfs/Qmabcxyz123"); //prev Document[] storage d = ....
+        Document memory d = Document(signer, block.timestamp,  "https://ipfs.io/ipfs/Qmabcxyz123");
 
         
         documents[documentId] = d; //push
@@ -157,25 +157,6 @@ contract ERC5289 is IERC5289Library {
 
         emit DocumentSigned(signer, documentId);
     }
-
-    /**
-     * @dev
-     *
-     *
-
-    function signDocument(address signer, uint16 documentId, string memory uri) public {
-
-        // prev documents[documentId].push(Document(signer, block.timestamp, uri));
-
-        Document memory d = Document(signer, block.timestamp, "noURI");
-
-        documents[documentId] = d;
-
-        signers[signer] = documentId;
-        
-        emit DocumentSignedAt(signer, documentId, uri);
-    }
-
 
     
     /// @notice Emitted when signDocument accepts 3 parameters

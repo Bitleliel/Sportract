@@ -25,6 +25,8 @@
  * and Infura PROJECT_ID variables inside.
  * For example, your .env file will have the following structure:
  *
+ * 
+ *  
  * MNEMONIC = <Your 12 phrase mnemonic>
  * PROJECT_ID = <Your Infura project id>
  *

@@ -8,7 +8,7 @@ interface IERC5289Library is IERC165 {
     event DocumentSigned(address indexed signer, uint16 indexed documentId);
     
     /// @notice An immutable link to the legal document (RECOMMENDED to be hosted on IPFS). This MUST use a common file format, such as PDF, HTML, TeX, or Markdown.
-    function legalDocument(uint16 documentId) external view returns (string memory);
+    function legalDocument(uint16 documentId) external view returns (string calldata);
     
     /// @notice Returns whether or not the given user signed the document.
     function documentSigned(address user, uint16 documentId) external view returns (bool signed);
