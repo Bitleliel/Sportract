@@ -5,22 +5,25 @@ pragma solidity ^0.8.0;
  * @dev Contract to collect athletes' performance data
  *
  * This contract provides a storage to the athlete's profile 
- * information, such as name, age, country or gender.
+ * information, such as name, age, country or sex.
  *
  * Moreover, it colletcs data for every sport event in which the athlete competes, 
  * producing value and burning tokens in case of high performances
  * or inflating value, therefore minting tokens in case of low performances.
  * 
  */
+ 
+
 
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+
+
 
 import "./ERC5289.sol";
 
-contract Sportract is ERC20, ERC20Burnable, ERC5289, Ownable {
+contract Sportract is ERC20, ERC5289, Ownable {
 
     
     // The following variables store user data 
@@ -28,7 +31,7 @@ contract Sportract is ERC20, ERC20Burnable, ERC5289, Ownable {
 
     string ownername;
     string country;
-    string gender;
+    string sex;
     uint256 yearofbirth;
 
     // Index of the total sport events attended
@@ -61,7 +64,7 @@ contract Sportract is ERC20, ERC20Burnable, ERC5289, Ownable {
 
 
    /**
-    * @dev Sets the value for ownername, country, gender, yearofbirth
+    * @dev Sets the value for ownername, country, sex, yearofbirth
     *
     * Each of these variables are editable in the future
     *
@@ -69,13 +72,13 @@ contract Sportract is ERC20, ERC20Burnable, ERC5289, Ownable {
 
     function setUserData (
         string calldata _ownername, 
-        string calldata _gender, 
+        string calldata _sex, 
         string calldata _country, 
         uint _yearofbirth
         ) public {
         setName(_ownername);
         setCountry(_country);
-        setGender(_gender);
+        setSex(_sex);
         setYearofbirth(_yearofbirth);
     }
     
@@ -99,12 +102,12 @@ contract Sportract is ERC20, ERC20Burnable, ERC5289, Ownable {
     }
     
    /**
-    * @dev Returns the value of gender
+    * @dev Returns the value of sex
     *
     */
 
-    function getGender() public view returns (string memory) {
-        return gender;
+    function getSex() public view returns (string memory) {
+        return sex;
     }
     
    /**
@@ -137,12 +140,12 @@ contract Sportract is ERC20, ERC20Burnable, ERC5289, Ownable {
 
     
    /**
-    * @dev Sets the value for gender
+    * @dev Sets the value for sex
     *
     */
 
-    function setGender (string calldata _gender) public {
-        gender = _gender;
+    function setSex (string calldata _sex) public {
+        sex = _sex;
     }
     
    /**
@@ -231,6 +234,9 @@ contract Sportract is ERC20, ERC20Burnable, ERC5289, Ownable {
 
         scoreValue(score);
     }
+    
+
+
 
     function mint(address to, uint256 amount) private {
         _mint(to, amount);
